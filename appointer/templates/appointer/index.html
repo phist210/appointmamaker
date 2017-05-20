@@ -1,0 +1,59 @@
+{% extends 'appointer/base.html' %}
+{% load static %}
+
+{% block extra_head_content %}
+{% endblock %}
+
+{% block content %}
+<div class="buttons">
+
+  <form action="" method="GET">
+    <div class="row">
+      <div class="col-xs-6 col-md-4">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Search" id="txtSearch"/>
+          <div class="input-group-btn">
+          <button class="btn btn-primary" type="submit">
+            <span class="glyphicon glyphicon-search"></span>
+          </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <button class="btn btn-default" data-modal-id="popup">New</button>
+
+</div>
+
+<div class="container-fluid">
+  <table class="table table-hover">
+      <tr>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Description</th>
+      </tr>
+      {% for appointment in appointment %}
+      <tr>
+        <td>{{appointment.date}}</td>
+        <td>{{appointment.time}}</td>
+        <td>{{appointment.description}}</td>
+      </tr>
+    {% endfor %}
+  </table>
+</div>
+
+<div id="popup" class="modal">
+  <header id='menu-bar'>
+    <a href="#" class="js-modal-close close">×</a>
+    <h2>New appointment</h2>
+  </header>
+  <div class="modal-body">
+    <form action='/' method="POST" id='new_appointment_form'>
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Add appointment</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
