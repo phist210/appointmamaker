@@ -5,29 +5,43 @@
 {% endblock %}
 
 {% block content %}
-<div class="buttons">
-
-  <form action="" method="GET">
+<div class="container">
+  <div class="buttons">
     <div class="row">
       <div class="col-xs-6 col-md-4">
+        <button class="btn btn-default" id="new">New</button></br>
         <div class="input-group">
-          <input type="text" class="form-control" placeholder="Search" id="txtSearch"/>
+          <input type="text" name="search" class="form-control" id="search"/>
           <div class="input-group-btn">
-          <button class="btn btn-primary" type="submit">
-            <span class="glyphicon glyphicon-search"></span>
-          </button>
+            <button class="btn btn-info" id="search_submit" type="submit">
+              <span class="glyphicon glyphicon-search"> Search/View</span>
+            </button>
+            <button class="btn btn-warning" id="search_cancel" type="cancel" style="display: none">
+              <span class="glyphicon glyphicon-remove"> Cancel</span>
+            </button>
+            <span id="spinner">
+              <img width=20 height=20 src="https://media.apnarm.net.au/static/167.6/tc/base/img/miscSize/ajaxSpinner.gif"/>
+            </span>
           </div>
         </div>
       </div>
     </div>
-  </form>
 
-  <button class="btn btn-default" data-modal-id="popup">New</button>
+  </div>
 
-</div>
 
-<div class="container-fluid">
-  <table class="table table-hover">
+  <div class="other_buttons">
+    <form action='/' method="POST" id='new_appointment_form'>
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="btn btn-primary" type="submit">Add appointment</button>
+      <button id="cancel" class="btn btn-danger" type="cancel">Cancel</button>
+    </form>
+  </div>
+
+
+  <div class="container-fluid">
+    <table id="appointments" class="table table-hover" style="display: none;">
       <tr>
         <th>Date</th>
         <th>Time</th>
@@ -39,21 +53,8 @@
         <td>{{appointment.time}}</td>
         <td>{{appointment.description}}</td>
       </tr>
-    {% endfor %}
-  </table>
-</div>
-
-<div id="popup" class="modal">
-  <header id='menu-bar'>
-    <a href="#" class="js-modal-close close">×</a>
-    <h2>New appointment</h2>
-  </header>
-  <div class="modal-body">
-    <form action='/' method="POST" id='new_appointment_form'>
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit">Add appointment</button>
-    </form>
+      {% endfor %}
+    </table>
   </div>
 </div>
 {% endblock %}

@@ -1,34 +1,56 @@
 $(function() {
+  $('#search_submit').click( function() {
+    var q = $('#search').val();
 
-var appendesc   =  ("<div class='esc-info'>PRESS ESC TO CLOSE</div>");
-var appendmodal =  ("<div class='modal-overlay'></div>");
-
-  $('button[data-modal-id]').click(function(){
-    $("body").append(appendmodal);
-    $("body").append(appendesc);
-    $(".modal-overlay").slideDown().fadeTo(500, 0.9);
-    //$(".js-modalbox").fadeIn(500);
-    var modalBox = $(this).attr('data-modal-id');
-    $('#'+modalBox).slideDown($(this).data());
-    document.onkeydown = function(evt) {
-    evt = evt || window.event;
-    var isEscape = false;
-    if ("key" in evt) {
-        isEscape = (evt.key == "Escape" || evt.key == "Esc");
-    } else {
-        isEscape = (evt.keyCode == 27);
-    }
-    if (isEscape) {
-      $(".modal, .modal-overlay, .esc-info").slideUp(function() {
-        $(".modal-overlay, .esc-info").fadeTo(500, 0.1).remove();
+    if (q) {
+      $.ajax({
+        type:"POST",
+        url:"/?search=" + q,
+        data:{
+          q,
+          'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val()
+        },
+        success: searchSuccess,
+        dataType: 'html'
       });
-      }
-    };
-  });
 
-  $(".modal-overlay, .js-modal-close").click(function() {
-    $(".modal, .modal-overlay, .esc-info").slideUp(function() {
-      $(".modal-overlay, .esc-info").fadeTo(500, 0.1).remove();
+      function searchSuccess(data, textStatus) {
+        $('body').load("/?search=" + q, function() {
+          $("#appointments").show();
+          $("#search_cancel").show().click(function() {
+            $("#appointments").hide();
+            $("#search_cancel").hide();
+            $('body').load("/?search= ");
+          });
+        });
+      }
+
+  } else {
+      $("#appointments").show();
+      $("#search_cancel").show().click(function() {
+        $("#appointments").hide();
+        $("#search_cancel").hide();
+        $('body').load("/?search= ");
+      });
+    }
+  });
+});
+
+
+$(function() {
+  $("#new").click(function() {
+    $(".buttons").hide();
+    $(".other_buttons").show();
+    $("#cancel").click(function () {
+      $(".buttons").show();
+      $(".other_buttons").hide();
     });
   });
+});
+
+
+$( document ).ajaxStart( function() {
+  $( '#spinner' ).show();
+}).ajaxStop( function() {
+  $( '#spinner' ).hide();
 });

@@ -24,7 +24,6 @@ router.register(r'appointment', views.AppointmentViewSet, 'Appointment')
 
 urlpatterns = [
     url(r'^', include('appointer.urls')),
-    url(r'^search/', include('appointer.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls',
