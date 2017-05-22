@@ -6,7 +6,7 @@ JavaScript, Ajax and HTML/CSS.
 
 #### Prerequisites
 
-* [PostgreSQL](https://www.postgresql.org/download/) - An open source object-relational database system
+* [PostgreSQL](http://postgresapp.com/) - An open source object-relational database system
 * [Postico](https://eggerapps.at/postico/) - A Modern PostgreSQL Client for OSX
 
 Python3
